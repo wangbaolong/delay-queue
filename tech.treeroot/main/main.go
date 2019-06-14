@@ -15,29 +15,21 @@ func main() {
 func delayQueue() {
 	delayQueue := delay.New()
 	go func() {
-		delayQueue.Offer(delay.NewDelayTask(10, func() {
-			fmt.Println("10s 任务执行了")
-		}))
-		delayQueue.Offer(delay.NewDelayTask(20, func() {
-			fmt.Println("20s 任务执行了")
-		}))
-		delayQueue.Offer(delay.NewDelayTask(30, func() {
-			fmt.Println("30s 任务执行了")
-		}))
-		delayQueue.Offer(delay.NewDelayTask(5, func() {
-			fmt.Println("5s 任务执行了")
-		}))
-
 		for {
-			time.Sleep(5 * time.Second)
+			delayQueue.Offer(delay.NewDelayTask(5, func() {
+				fmt.Println("5s 任务执行了")
+			}))
+			delayQueue.Offer(delay.NewDelayTask(10, func() {
+				fmt.Println("10s 任务执行了")
+			}))
+			delayQueue.Offer(delay.NewDelayTask(20, func() {
+				fmt.Println("20s 任务执行了")
+			}))
 			delayQueue.Offer(delay.NewDelayTask(30, func() {
-				fmt.Println("10s 任务执行了")
+				fmt.Println("30s 任务执行了")
 			}))
-			delayQueue.Offer(delay.NewDelayTask(40, func() {
-				fmt.Println("10s 任务执行了")
-			}))
+			time.Sleep(1 * time.Second)
 		}
-
 	}()
 
 	// 启动 两个协程读取延迟队列的任务
