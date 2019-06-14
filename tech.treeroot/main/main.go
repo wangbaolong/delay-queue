@@ -28,7 +28,7 @@ func delayQueue() {
 			delayQueue.Offer(delay.NewDelayTask(30, func() {
 				fmt.Println("30s 任务执行了")
 			}))
-			time.Sleep(1 * time.Second)
+			time.Sleep(5 * time.Second)
 		}
 	}()
 

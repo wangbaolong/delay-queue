@@ -19,6 +19,7 @@ func (p *Task) Run() {
 	(p.runnable)()
 }
 
+// delayTime 已秒为单位
 func NewDelayTask(delayTime int64, runnable func()) *Task {
 	delayTime = time.Now().Unix() + delayTime
 	return &Task{delayTime:delayTime, runnable:runnable}
