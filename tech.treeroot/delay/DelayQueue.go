@@ -117,24 +117,23 @@ func (d *DelayQueue) waitWithTimeout(timeout int64) int64 {
 		case <-timer.C:
 			// 为了剩余时间计算更准确不使用defer 获取锁
 			d.lock.Lock()
+			delete(d.timerMap, timer)
 			return absTimeout - time.Now().Unix()
 	}
 }
 
 // 只遍历出一个timer 直接唤醒
 func (d *DelayQueue) signal() {
-	for key, val := range d.timerMap {
+	for _, val := range d.timerMap {
 		val.Reset(0)
-		delete(d.timerMap, key)
 		break
 	}
 }
 
 // 唤醒所有timer
 func (d *DelayQueue) signalAll() {
-	for key, val := range d.timerMap {
+	for _, val := range d.timerMap {
 		val.Reset(0)
-		delete(d.timerMap, key)
 	}
 }
 
