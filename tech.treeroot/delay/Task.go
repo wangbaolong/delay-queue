@@ -1,10 +1,13 @@
 package delay
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 type Task struct {
 	delayTime int64
-	runnable func()
+	runnable  func()
 }
 
 func (p *Task) GetCompareValue() int64 {
@@ -16,11 +19,12 @@ func (p *Task) GetDelay() int64 {
 }
 
 func (p *Task) Run() {
+	fmt.Println("exec time:", time.Now().Unix(), "delay time:", p.delayTime)
 	(p.runnable)()
 }
 
 // delayTime 已秒为单位
 func NewDelayTask(delayTime int64, runnable func()) *Task {
 	delayTime = time.Now().Unix() + delayTime
-	return &Task{delayTime:delayTime, runnable:runnable}
+	return &Task{delayTime: delayTime, runnable: runnable}
 }

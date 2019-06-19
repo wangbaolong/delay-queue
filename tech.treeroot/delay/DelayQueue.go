@@ -16,12 +16,12 @@ type Delayed interface {
 type DelayQueue struct {
 	queue *PriorityQueue
 	lock  sync.Mutex
-	//timer *time.Timer
+	//timing-wheel-go *time.Timer
 	timerMap map[*time.Timer]*time.Timer
 }
 
-func New() *DelayQueue {
-	return &DelayQueue{queue:&PriorityQueue{}, lock:sync.Mutex{}, timerMap:make(map[*time.Timer]*time.Timer)}
+func NewDelayQueue() *DelayQueue {
+	return &DelayQueue{queue: &PriorityQueue{}, timerMap: make(map[*time.Timer]*time.Timer)}
 }
 
 // 添加一个延迟任务
@@ -93,8 +93,10 @@ func (d *DelayQueue) TakeWithTimeout(timeout int64) Delayed {
 			first = nil
 			if timeout < delay {
 				timeout = d.waitWithTimeout(timeout)
-				log("DelayQueue TakeWithTimeout 剩余超时时间timeout:", timeout)
+			} else {
+				timeout = d.waitWithTimeout(delay)
 			}
+			log("DelayQueue TakeWithTimeout 剩余超时时间timeout:", timeout)
 		}
 	}
 }
@@ -114,11 +116,11 @@ func (d *DelayQueue) waitWithTimeout(timeout int64) int64 {
 	d.lock.Unlock()
 	absTimeout := time.Now().Unix() + timeout
 	select {
-		case <-timer.C:
-			// 为了剩余时间计算更准确不使用defer 获取锁
-			d.lock.Lock()
-			delete(d.timerMap, timer)
-			return absTimeout - time.Now().Unix()
+	case <-timer.C:
+		// 为了剩余时间计算更准确不使用defer 获取锁
+		d.lock.Lock()
+		delete(d.timerMap, timer)
+		return absTimeout - time.Now().Unix()
 	}
 }
 
