@@ -1,20 +1,20 @@
 package timerwheel
 
 import (
-	"delay-queue/tech.treeroot/delay"
+	"delay-queue/tech.treeroot/queue"
 	"sync"
 	"time"
 )
 
 type Timer struct {
 	timingWheel *TimingWheel
-	queue       *delay.DelayQueue
+	queue       *queue.DelayQueue
 	taskCounter *AtomicInteger
 	rwLock      sync.RWMutex
 }
 
 func NewTimer(tickMs int64, wheelSize int32, pollInterval int64) *Timer {
-	queue := delay.NewDelayQueue()
+	queue := queue.NewDelayQueue()
 	taskCounter := NewAtomicInteger()
 	timingWheel := newTimingWheel(tickMs, wheelSize, time.Now().Unix(), taskCounter, queue)
 	timer := &Timer{timingWheel: timingWheel, queue: queue, taskCounter: taskCounter}

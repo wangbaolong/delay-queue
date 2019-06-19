@@ -1,7 +1,7 @@
 package main
 
 import (
-	"delay-queue/tech.treeroot/delay"
+	"delay-queue/tech.treeroot/queue"
 	"delay-queue/tech.treeroot/timerwheel"
 	"fmt"
 	"time"
@@ -52,20 +52,20 @@ func timerTest() {
 }
 
 func delayQueue() {
-	delayQueue := delay.NewDelayQueue()
+	delayQueue := queue.NewDelayQueue()
 	go func() {
 		count := 0
 		for {
-			delayQueue.Offer(delay.NewDelayTask(5, func() {
+			delayQueue.Offer(queue.NewDelayTask(5, func() {
 				fmt.Println("5s 任务执行了")
 			}))
-			delayQueue.Offer(delay.NewDelayTask(10, func() {
+			delayQueue.Offer(queue.NewDelayTask(10, func() {
 				fmt.Println("10s 任务执行了")
 			}))
-			delayQueue.Offer(delay.NewDelayTask(20, func() {
+			delayQueue.Offer(queue.NewDelayTask(20, func() {
 				fmt.Println("20s 任务执行了")
 			}))
-			delayQueue.Offer(delay.NewDelayTask(30, func() {
+			delayQueue.Offer(queue.NewDelayTask(30, func() {
 				fmt.Println("30s 任务执行了")
 			}))
 			time.Sleep(10 * time.Millisecond)

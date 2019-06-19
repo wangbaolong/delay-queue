@@ -1,4 +1,4 @@
-package delay
+package queue
 
 import (
 	"fmt"
@@ -19,7 +19,7 @@ func (p *Task) GetDelay() int64 {
 }
 
 func (p *Task) Run() {
-	fmt.Println("exec time:", time.Now().Unix(), "delay time:", p.delayTime)
+	fmt.Println("exec time:", time.Now().Unix(), "queue time:", p.delayTime)
 	(p.runnable)()
 }
 

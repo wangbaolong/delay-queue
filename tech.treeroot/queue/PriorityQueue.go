@@ -1,4 +1,4 @@
-package delay
+package queue
 
 type Comparable interface {
 	GetCompareValue() int64

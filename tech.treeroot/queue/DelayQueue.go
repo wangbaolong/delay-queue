@@ -1,4 +1,4 @@
-package delay
+package queue
 
 import (
 	"container/heap"
@@ -16,7 +16,7 @@ type Delayed interface {
 type DelayQueue struct {
 	queue *PriorityQueue
 	lock  sync.Mutex
-	//timing-wheel-go *time.Timer
+	//queue-queue *time.Timer
 	timerMap map[*time.Timer]*time.Timer
 }
 

@@ -1,7 +1,7 @@
 package timerwheel
 
 import (
-	"delay-queue/tech.treeroot/delay"
+	"delay-queue/tech.treeroot/queue"
 	"fmt"
 	"sync"
 	"sync/atomic"
@@ -13,14 +13,14 @@ type TimingWheel struct {
 	interval          int64
 	startMs           int64
 	taskCounter       *AtomicInteger
-	queue             *delay.DelayQueue
+	queue             *queue.DelayQueue
 	currentTime       int64
 	buckets           []*TaskList
 	overflowWheel     *TimingWheel
 	overflowWheelLock sync.Mutex
 }
 
-func newTimingWheel(tickMs int64, wheelSize int32, startMs int64, taskCounter *AtomicInteger, queue *delay.DelayQueue) *TimingWheel {
+func newTimingWheel(tickMs int64, wheelSize int32, startMs int64, taskCounter *AtomicInteger, queue *queue.DelayQueue) *TimingWheel {
 	interval := tickMs * int64(wheelSize)
 	currentTime := startMs - (startMs % tickMs)
 	var buckets []*TaskList
@@ -102,7 +102,7 @@ func (t *AtomicInteger) Get() int64 {
 }
 
 func Log(msg ...interface{}) {
-	if true {
+	if false {
 		fmt.Println(msg)
 	}
 }
