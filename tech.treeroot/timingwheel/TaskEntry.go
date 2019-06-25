@@ -1,4 +1,4 @@
-package timerwheel
+package timingwheel
 
 import "time"
 
